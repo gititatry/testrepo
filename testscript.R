@@ -22,6 +22,15 @@ part.predict <- function(modObj, X) {
       return(rep(mean(col),length(col))) #mean for continuous variables
     } else  return(rep( factor(modal(col),levels=levels(col)),length(col)))  #modal for factors
   }  
+ 
+  
+  ###this is your boss inserting some code 
+  
+  #add this here:
+  testfunction <- (df, bv) {
+    df
+    sdfhg
+    }
   
   part.predict.colwise <- function(xCol,mod) {
     #set all columns to their mean / modal values
@@ -32,13 +41,16 @@ part.predict <- function(modObj, X) {
     nam <- names(newDat)
     #create sequence in xCol for prediction
     newDat[,xCol]  <- seq.pred(X[,xCol])
+    #please add this function to the script, dont load externally
     names(newDat) <- nam 
+    
     #predict y for xCol holding all other values constant
     if (class(mod)[1] == "gbm") {
       y_hat  <- data.frame( predict(mod,newdata=newDat,type="response",n.trees=mod$gbm.call$best.trees) )
     } else {
       y_hat  <- data.frame( predict(mod,newdata=newDat,type="response") )  
     }
+    print(class(y_hat))
     return(y_hat)
   }
   partY <- data.frame( lapply(seq(1:ncol(X)),part.predict.colwise,modObj) )
